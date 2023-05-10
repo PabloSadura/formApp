@@ -6,13 +6,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { Component } from '@angular/core';
+import { ValidatorsService } from 'src/app/shared/services/validators.service';
 
 @Component({
   templateUrl: './dinamic-page.component.html',
   styles: [],
 })
 export class DinamicPageComponent {
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private validatorsServices: ValidatorsService
+  ) {}
 
   public myForm: FormGroup = this.fb.group({
     name: ['', Validators.required, Validators.minLength(3)],
@@ -49,5 +53,8 @@ export class DinamicPageComponent {
     }
     console.log(this.myForm.value);
     this.myForm.reset();
+  }
+  isValidField(field: string): boolean | null {
+    return this.validatorsServices.isValidField(this.myForm, field);
   }
 }
